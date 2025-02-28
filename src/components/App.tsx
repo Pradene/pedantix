@@ -23,6 +23,8 @@ const getRandomPage: () => Promise<Page | null> = async () => {
       resume,
     }
 
+    console.log(result.resume);
+
     return result;
     
   } catch (e) {
@@ -43,7 +45,11 @@ const App: Component = () => {
   };
 
   const splitString = (str: string) => {
-    return str.match(/[\w']+|[^\w\s]/g) || [];
+    return str.match(/(\p{L}+|\d+|['’]| - |[^\p{L}\d\s])/giu) || [];
+  };
+
+  const isPunctuation = (word: string): boolean => {
+    return /^[^\p{L}\d\s'’]$/u.test(word);
   };
 
   const handleKeyDown = (event: KeyboardEvent) => {
@@ -72,7 +78,7 @@ const App: Component = () => {
         <div class="resume">
           {words().map((word, index) => (
             <span key={index}>
-              {wordExists(word) || /[^\w\s]/.test(word) ? (
+              {wordExists(word) || isPunctuation(word) ? (
                 <span class="word">{word}</span> // Word found, display it
               ) : (
                 <span class={`wordHidden${word.length}`}></span> // Word not found, display black div
