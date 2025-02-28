@@ -1,8 +1,6 @@
 import type { Component } from "solid-js";
 import { createSignal, createEffect } from "solid-js";
 
-import styles from "../styles/App.module.css";
-
 type Page = {
   title: string;
   resume: string;
@@ -35,20 +33,41 @@ const getRandomPage: () => Promise<Page | null> = async () => {
 const App: Component = () => {
 
   const [page, setPage] = createSignal<Page | null>(null);
+  const [words, setWords] = createSignal<string[]>([]);
+
+  const wordsToCheck = ["the", "is"];
+
+  const wordExists = (word: string) => {
+    return wordsToCheck.some((checkWord) => word.toLowerCase() === checkWord.toLowerCase());
+  };
+
+  const splitString = (str: string) => {
+    return str.match(/\w+|[^\w\s]/g) || [];
+  }
 
   createEffect(() => {
-    getRandomPage()
-      .then((data) => {
-        if (data) {
-          setPage(data)
-        }
-      })
-  })
+    getRandomPage().then((data) => {
+      if (data) {
+        setPage(data)
+        setWords(splitString(data.resume));
+      }
+    });
+  });
 
   return (
-    <div class={styles.app}>
-      <h2 class={styles.title}>{page()?.title}</h2>
-      <p class={styles.resume}>{page()?.resume}</p>
+    <div class="app">
+      <h2 class="title">{page()?.title}</h2>
+      <div class="resume">
+        {words().map((word, index) => (
+          <span key={index}>
+            {wordExists(word) || /[^\w\s]/.test(word) ? (
+              <span class="word">{word}</span> // Word found, display it
+            ) : (
+              <span class={`wordHidden${word.length}`}></span> // Word not found, display black div
+            )}
+          </span>
+        ))}
+      </div>
     </div>
   );
 };

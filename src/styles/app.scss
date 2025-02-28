@@ -1,0 +1,27 @@
+.app {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+}
+
+.title {
+  margin-bottom: 1rem;
+}
+
+.resume {
+  .word {
+    font-size: 1rem;
+    display: inline-block;
+    margin-right: 0.25rem;
+  }
+  
+  @for $i from 0 through 100 {
+    .wordHidden#{$i} {
+      display: inline-block;
+      background: black;
+      height: 1rem;
+      width: $i * 1rem;
+      margin-right: 0.25rem;
+    }
+  }
+}

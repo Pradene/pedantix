@@ -1,10 +1,10 @@
 /* @refresh reload */
 import { render } from 'solid-js/web';
 
-import './styles/index.css';
+import './styles/index.scss';
 import App from './components/App';
 
-const root = document.getElementById('root');
+const root = document.querySelector('.root');
 
 if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
   throw new Error(

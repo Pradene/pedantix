@@ -14,7 +14,9 @@ body {
   height: 100%;
 }
 
-#root {
+.root {
   width: 100%;
   height: 100%;
 }
+
+@import 'app';
