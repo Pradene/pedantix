@@ -27,23 +27,34 @@ const getRandomPage: () => Promise<Page | null> = async () => {
     
   } catch (e) {
     console.error("Error fetching random page:", e);
+    return null;
   }
 }
 
 const App: Component = () => {
 
   const [page, setPage] = createSignal<Page | null>(null);
+  const [guessed, setGuessed] = createSignal<Set<string>>(new Set());
   const [words, setWords] = createSignal<string[]>([]);
-
-  const wordsToCheck = ["the", "is"];
+  const [inputValue, setInputValue] = createSignal<string>("");
 
   const wordExists = (word: string) => {
-    return wordsToCheck.some((checkWord) => word.toLowerCase() === checkWord.toLowerCase());
+    return guessed().has(word.toLowerCase());
   };
 
   const splitString = (str: string) => {
-    return str.match(/\w+|[^\w\s]/g) || [];
-  }
+    return str.match(/[\w']+|[^\w\s]/g) || [];
+  };
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Enter") {
+      const value = inputValue().trim().toLowerCase();
+      if (value) {
+        setGuessed(prev => new Set([...prev, value]));
+        setInputValue("");
+      }
+    }
+  };
 
   createEffect(() => {
     getRandomPage().then((data) => {
@@ -70,7 +81,15 @@ const App: Component = () => {
           ))}
         </div>
       </div>
-      <input class="input" type="text" placeholder="Write something" />
+      <input
+        class="input"
+        type="text"
+        value={inputValue()}
+        onInput={(e) => setInputValue(e.target.value)}
+        onKeyDown={handleKeyDown}
+        aria-label="Guess a word"
+        placeholder="Guess a word"
+      />
     </div>
   );
 };
