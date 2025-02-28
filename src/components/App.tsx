@@ -56,18 +56,21 @@ const App: Component = () => {
 
   return (
     <div class="app">
-      <h2 class="title">{page()?.title}</h2>
-      <div class="resume">
-        {words().map((word, index) => (
-          <span key={index}>
-            {wordExists(word) || /[^\w\s]/.test(word) ? (
-              <span class="word">{word}</span> // Word found, display it
-            ) : (
-              <span class={`wordHidden${word.length}`}></span> // Word not found, display black div
-            )}
-          </span>
-        ))}
+      <div class="page">
+        <h2 class="title">{page()?.title}</h2>
+        <div class="resume">
+          {words().map((word, index) => (
+            <span key={index}>
+              {wordExists(word) || /[^\w\s]/.test(word) ? (
+                <span class="word">{word}</span> // Word found, display it
+              ) : (
+                <span class={`wordHidden${word.length}`}></span> // Word not found, display black div
+              )}
+            </span>
+          ))}
+        </div>
       </div>
+      <input class="input" type="text" placeholder="Write something" />
     </div>
   );
 };
