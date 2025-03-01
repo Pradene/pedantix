@@ -1,7 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs';
 
-// Load the GloVe embeddings into memory
 const loadGloveModel = (gloveFilePath: string) => {
   const gloveModel: { [word: string]: number[] } = {};
   const fileContent = fs.readFileSync(gloveFilePath, 'utf-8');
@@ -18,5 +17,4 @@ const loadGloveModel = (gloveFilePath: string) => {
   return gloveModel;
 };
 
-// Load the GloVe 50D model (adjust file path if needed)
 export const gloveModel = loadGloveModel(path.resolve(__dirname, '../../glove.6B.50d.txt'));
