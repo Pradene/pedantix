@@ -9,7 +9,7 @@ This small project is a clone of the [Pedantix](https://pedantix.certitudes.org/
     git clone https://github.com/Pradene/pedantix
     ```
 
-2. Install the dependencies
+2. Install the dependencies in back and front
     ```bash
     npm install # or pnpm install or yarn install
     ```

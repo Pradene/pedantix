@@ -22,7 +22,7 @@ const App: Component = () => {
     getRandomPage().then((data) => {
       if (data) {
         setPage(data);
-        setWords(splitString(data.resume));
+        setWords(splitString(data.content));
       }
     });
   });
